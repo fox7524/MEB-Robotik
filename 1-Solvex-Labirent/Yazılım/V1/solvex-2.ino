@@ -13,70 +13,11 @@
  static const int L_PWM = 20;
  
  static const int START_BTN = 7;
- 
- static const int ENC_L_A = -1;
- static const int ENC_L_B = -1;
- static const int ENC_R_A = -1;
- static const int ENC_R_B = -1;
- 
- static const int PWM_MAX = 255;
- static const int BASE_PWM = 170;
- static const int TURN_PWM = 170;
  static const int TURN_90_MS = 350;
  static const int CELL_TRAVEL_MS = 700;
- static const int CELL_TICKS = 500;
  
  static const unsigned long SENSOR_TIMEOUT_US = 25000;
  static const int WALL_THRESHOLD_CM = 18;
- 
- static volatile long g_encL = 0;
- static volatile long g_encR = 0;
- 
- static int g_lastLeftCmd = 0;
- static int g_lastRightCmd = 0;
- 
- static void isrEncL() {
-   if (ENC_L_B >= 0) {
-     int b = digitalRead(ENC_L_B);
-     if (b) g_encL--; else g_encL++;
-   } else {
-     g_encL++;
-   }
- }
- 
- static void isrEncR() {
-   if (ENC_R_B >= 0) {
-     int b = digitalRead(ENC_R_B);
-     if (b) g_encR++; else g_encR--;
-   } else {
-     g_encR++;
-   }
- }
- 
- static void resetEncoders() {
-   noInterrupts();
-   g_encL = 0;
-   g_encR = 0;
-   interrupts();
- }
- 
- static long encL() {
-   noInterrupts();
-   long v = g_encL;
-   interrupts();
-   return v;
- }
- 
- static long encR() {
-   noInterrupts();
-   long v = g_encR;
-   interrupts();
-   return v;
- }
- 
- static bool encodersEnabled() {
-   return (ENC_L_A >= 0) && (ENC_R_A >= 0);
- }
  
  static void motorStop() {
    digitalWrite(L_IN1, LOW);
@@ -85,92 +26,75 @@
    digitalWrite(R_IN2, LOW);
    analogWrite(L_PWM, 0);
    analogWrite(R_PWM, 0);
-   g_lastLeftCmd = 0;
-   g_lastRightCmd = 0;
  }
  
- static void motorSet(int left, int right) {
-   left = constrain(left, -PWM_MAX, PWM_MAX);
-   right = constrain(right, -PWM_MAX, PWM_MAX);
+ void ileri(){
+ digitalWrite(L_IN1, HIGH);
+ digitalWrite(R_IN1, HIGH);
  
-   g_lastLeftCmd = left;
-   g_lastRightCmd = right;
  
-   if (left == 0) {
-     digitalWrite(L_IN1, LOW);
-     digitalWrite(L_IN2, LOW);
-     analogWrite(L_PWM, 0);
-   } else if (left > 0) {
-     digitalWrite(L_IN1, HIGH);
-     digitalWrite(L_IN2, LOW);
-     analogWrite(L_PWM, left);
-   } else {
-     digitalWrite(L_IN1, LOW);
-     digitalWrite(L_IN2, HIGH);
-     analogWrite(L_PWM, -left);
-   }
+ digitalWrite(L_IN1, LOW);
+ digitalWrite(R_IN1, LOW);
  
-   if (right == 0) {
-     digitalWrite(R_IN1, LOW);
-     digitalWrite(R_IN2, LOW);
-     analogWrite(R_PWM, 0);
-   } else if (right > 0) {
-     digitalWrite(R_IN1, HIGH);
-     digitalWrite(R_IN2, LOW);
-     analogWrite(R_PWM, right);
-   } else {
-     digitalWrite(R_IN1, LOW);
-     digitalWrite(R_IN2, HIGH);
-     analogWrite(R_PWM, -right);
-   }
+ 
+ analogWrite(L_PWM, 255);
+ analogWrite(R_PWM, 255);
+ 
+ 
  }
  
- static void driveForMs(int leftPwm, int rightPwm, unsigned long ms) {
-   motorSet(leftPwm, rightPwm);
-   unsigned long t0 = millis();
-   while ((millis() - t0) < ms) delay(1);
-   motorStop();
+ void geri(){
+ digitalWrite(L_IN1, LOW);
+ digitalWrite(R_IN1, LOW);
+ 
+ 
+ digitalWrite(L_IN1, HIGH);
+ digitalWrite(R_IN1, HIGH);
+ 
+ 
+ analogWrite(L_PWM, 255);
+ analogWrite(R_PWM, 255);
+ 
+ 
+ }
+ void sag360(){
+ digitalWrite(L_IN1, HIGH);
+ digitalWrite(R_IN1, LOW);
+ 
+ digitalWrite(L_IN1, LOW);
+ digitalWrite(R_IN1, HIGH);
+ 
+ analogWrite(L_PWM, 255);
+ analogWrite(R_PWM, 255);
+ 
+     
+ }
+ void sol360(){
+ 
+ digitalWrite(L_IN1, LOW);
+ digitalWrite(R_IN1, HIGH);
+ 
+ digitalWrite(L_IN1, HIGH);
+ digitalWrite(R_IN1, LOW);
+ 
+ analogWrite(L_PWM, 255);
+ analogWrite(R_PWM, 255);
+     
  }
  
- static void driveTicks(long targetTicks, int basePwm) {
-   if (!encodersEnabled()) {
-     driveForMs(basePwm, basePwm, CELL_TRAVEL_MS);
-     return;
-   }
+ void sag(){
+ digitalWrite(R_IN1, HIGH);
+ digitalWrite(R_IN1, HIGH);
  
-   long target = labs(targetTicks);
-   int dir = (basePwm >= 0) ? 1 : -1;
-   int pwm = constrain(abs(basePwm), 0, PWM_MAX);
- 
-   resetEncoders();
- 
-   while (true) {
-     long l = labs(encL());
-     long r = labs(encR());
-     if (l >= target && r >= target) break;
- 
-     long err = (long)l - (long)r;
-     int corr = constrain((int)(err * 2), -60, 60);
- 
-     int left = constrain(pwm - corr, 0, PWM_MAX);
-     int right = constrain(pwm + corr, 0, PWM_MAX);
- 
-     motorSet(dir * left, dir * right);
-     delay(2);
-   }
- 
-   motorStop();
+ analogWrite(R_PWM, 255);
+     
  }
+ void sol(){
+ digitalWrite(L_IN1, HIGH);
+ digitalWrite(L_IN1, HIGH);
  
- static void ileri() { driveTicks(CELL_TICKS, BASE_PWM); }
- static void geri() { driveTicks(CELL_TICKS, -BASE_PWM); }
- static void sag360() {
-   if (encodersEnabled()) driveForMs(TURN_PWM, -TURN_PWM, TURN_90_MS);
-   else driveForMs(TURN_PWM, -TURN_PWM, TURN_90_MS);
- }
- static void sol360() {
-   if (encodersEnabled()) driveForMs(-TURN_PWM, TURN_PWM, TURN_90_MS);
-   else driveForMs(-TURN_PWM, TURN_PWM, TURN_90_MS);
+ analogWrite(L_PWM, 255);
+     
  }
  
  static unsigned long fireAndReadEchoUs(int echoPin) {
@@ -309,9 +233,23 @@
  
  static void turnToHeading(int nextHeading) {
    int diff = (nextHeading - currentHeading + 4) & 3;
-   if (diff == 1) sag360();
-   else if (diff == 3) sol360();
-   else if (diff == 2) { sag360(); sag360(); }
+  if (diff == 1) {
+    sag360();
+    delay(TURN_90_MS);
+    motorStop();
+  } else if (diff == 3) {
+    sol360();
+    delay(TURN_90_MS);
+    motorStop();
+  } else if (diff == 2) {
+    sag360();
+    delay(TURN_90_MS);
+    motorStop();
+    delay(30);
+    sag360();
+    delay(TURN_90_MS);
+    motorStop();
+  }
    currentHeading = nextHeading;
  }
  
@@ -350,6 +288,8 @@
  
    turnToHeading(nextH);
    ileri();
+  delay(CELL_TRAVEL_MS);
+  motorStop();
    updatePositionAfterForward();
  
    Serial.print(currentX);
@@ -378,15 +318,6 @@
    pinMode(START_BTN, INPUT_PULLUP);
  
    motorStop();
- 
-   if (encodersEnabled()) {
-     pinMode(ENC_L_A, INPUT_PULLUP);
-     pinMode(ENC_R_A, INPUT_PULLUP);
-     if (ENC_L_B >= 0) pinMode(ENC_L_B, INPUT_PULLUP);
-     if (ENC_R_B >= 0) pinMode(ENC_R_B, INPUT_PULLUP);
-     attachInterrupt(digitalPinToInterrupt(ENC_L_A), isrEncL, RISING);
-     attachInterrupt(digitalPinToInterrupt(ENC_R_A), isrEncR, RISING);
-   }
  
    memset(walls, 0, sizeof(walls));
    updateDistances();

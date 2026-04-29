@@ -1,14 +1,19 @@
 // L9110 Motor Driver Pins
-const int MOTOR_LEFT_A  = 2; // Left Motor Forward
-const int MOTOR_LEFT_B  = 3; // Left Motor Reverse
-const int MOTOR_RIGHT_A = 4; // Right Motor Forward
-const int MOTOR_RIGHT_B = 5; // Right Motor Reverse
+//B-1A 8
+//B-1B 9
+//A-1A 7
+//A-1B 6
+// ==========================================
 
-// HC-SR04 Ultrasonic Sensor Pins
-const int TRIG_FRONT = 6;
-const int ECHO_FRONT = 7;
-const int TRIG_LEFT  = 8;
-const int ECHO_LEFT  = 9;
+const int MOTOR_LEFT_A  = 8; 
+const int MOTOR_LEFT_B  = 9; 
+const int MOTOR_RIGHT_A = 7; 
+const int MOTOR_RIGHT_B = 6; 
+
+const int TRIG_FRONT = 4;
+const int ECHO_FRONT = 5;
+const int TRIG_LEFT  = 2;
+const int ECHO_LEFT  = 3;
 
 // Start Module Pin
 const int START_MODULE = 10; 

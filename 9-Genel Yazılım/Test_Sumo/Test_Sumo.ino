@@ -1,16 +1,21 @@
 // ==========================================
 // 1. PIN DEFINITIONS
+
+//B-1A 8
+//B-1B 9
+//A-1A 7
+//A-1B 6
 // ==========================================
 
-const int MOTOR_LEFT_A  = 2; 
-const int MOTOR_LEFT_B  = 3; 
-const int MOTOR_RIGHT_A = 4; 
-const int MOTOR_RIGHT_B = 5; 
+const int MOTOR_LEFT_A  = 8; 
+const int MOTOR_LEFT_B  = 9; 
+const int MOTOR_RIGHT_A = 7; 
+const int MOTOR_RIGHT_B = 6; 
 
-const int TRIG_FRONT = 6;
-const int ECHO_FRONT = 7;
-const int TRIG_LEFT  = 8;
-const int ECHO_LEFT  = 9;
+const int TRIG_FRONT = 4;
+const int ECHO_FRONT = 5;
+const int TRIG_LEFT  = 2;
+const int ECHO_LEFT  = 3;
 
 const int START_MODULE = 10; // Start module pin
 
@@ -83,27 +88,14 @@ void loop() {
   Serial.print(" cm \t|\t Left: ");
   Serial.print(leftDist);
   Serial.print(" cm \t|\t ");
+  Serial.println();
 
   // 2. Motor Test Sequence (Changes state every 2 seconds)
-  unsigned long currentTime = millis();
-  int cyclePhase = (currentTime / 2000) % 4; 
+  
+  moveForward();
+  delay(1000);
+  moveBackward();
+  delay(1000);
+  
 
-  if (cyclePhase == 0) {
-    moveForward();
-    Serial.println("Motors: FORWARD");
-  } 
-  else if (cyclePhase == 1) {
-    stopMotors();
-    Serial.println("Motors: STOP");
-  } 
-  else if (cyclePhase == 2) {
-    moveBackward();
-    Serial.println("Motors: BACKWARD");
-  } 
-  else if (cyclePhase == 3) {
-    stopMotors();
-    Serial.println("Motors: STOP");
-  }
-
-  delay(250); // Read everything 4 times a second
 }

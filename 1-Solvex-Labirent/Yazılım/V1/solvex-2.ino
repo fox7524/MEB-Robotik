@@ -22,6 +22,11 @@ static const int HCSR_FRONT_ECHO = 2;        // ECHO front (requires shifter CH1
 static const int HCSR_LEFT_ECHO  = 3;        // ECHO left  (requires shifter CH2: 5V -> 3.3V)
 static const int HCSR_RIGHT_ECHO = 4;        // ECHO right (requires shifter CH3: 5V -> 3.3V)
 
+static const int HCSR_FRONT_TRIG = HCSR_TRIG;
+static const int HCSR_LEFT_TRIG  = HCSR_TRIG;
+static const int HCSR_RIGHT_TRIG = HCSR_TRIG;
+static const unsigned long HCSR_INTER_PING_MS = 35;
+
 static const int R_IN1 = 15;                 // L298N right motor IN1 (3.3V logic OK)
 static const int R_IN2 = 16;                 // L298N right motor IN2 (3.3V logic OK)
 static const int R_PWM = 17;                 // L298N right motor ENA (PWM)
@@ -46,6 +51,10 @@ static int g_wallThresholdCm = WALL_THRESHOLD_CM_DEFAULT; // Runtime threshold (
 static const int TURN_90_MS = 350;                        // Turn duration (ms) for sag360/sol360 motion
 static const int CELL_TRAVEL_MS = 700;                    // Forward duration (ms) to approximate one 20cm cell
 
+static const int PWM_MAX = 255;
+static const int DRIVE_PWM = 200;
+static const int TURN_PWM = 200;
+
 static const int MAZE_W = 8;                              // Competition grid width
 static const int MAZE_H = 16;                             // Competition grid height
 
@@ -56,6 +65,7 @@ static const uint8_t WEST  = 8;                           // Wall bit: west side
 
 static uint8_t g_dist[MAZE_W][MAZE_H];                    // Flood distances; 255 means unknown/unreachable
 static uint8_t g_walls[MAZE_W][MAZE_H];                   // Wall map bitmask per cell
+static uint8_t g_known[MAZE_W][MAZE_H];
 
 static int g_x = 0;                                       // Current cell X (0..MAZE_W-1)
 static int g_y = 0;                                       // Current cell Y (0..MAZE_H-1)
@@ -79,8 +89,16 @@ void setup() {
 
   pinMode(START_BTN, INPUT_PULLUP);                        // Active-low start button; keeps robot stopped by default
 
-  pinMode(HCSR_TRIG, OUTPUT);                              // TRIG is an output pulse from STM32 (3.3V is fine)
-  digitalWrite(HCSR_TRIG, LOW);                            // Keep TRIG low when idle to avoid false pings
+  pinMode(HCSR_FRONT_TRIG, OUTPUT);
+  digitalWrite(HCSR_FRONT_TRIG, LOW);
+  if (HCSR_LEFT_TRIG != HCSR_FRONT_TRIG) {
+    pinMode(HCSR_LEFT_TRIG, OUTPUT);
+    digitalWrite(HCSR_LEFT_TRIG, LOW);
+  }
+  if (HCSR_RIGHT_TRIG != HCSR_FRONT_TRIG && HCSR_RIGHT_TRIG != HCSR_LEFT_TRIG) {
+    pinMode(HCSR_RIGHT_TRIG, OUTPUT);
+    digitalWrite(HCSR_RIGHT_TRIG, LOW);
+  }
 
   pinMode(HCSR_FRONT_ECHO, INPUT);                         // ECHO must be 3.3V due to STM32; shifted externally
   pinMode(HCSR_LEFT_ECHO, INPUT);                          // ECHO must be 3.3V due to STM32; shifted externally
@@ -109,9 +127,11 @@ void setup() {
   motorStop();                                             // Fail-safe: ensure motors are off at boot
 
   memset(g_walls, 0, sizeof(g_walls));                     // Unknown walls at start; exploration fills this
+  memset(g_known, 0, sizeof(g_known));
   updateDistances();                                       // Seed flood distances from goals for first decision
-
-  printShifterDiagnostics();                               // Print initial "SHIFTER OK/FAULT" for 3 channels
+#if defined(DEV_DIAG)
+  printShifterDiagnostics();
+#endif
 
   Serial.println("READY");                                 // User feedback in serial monitor
 }
@@ -141,7 +161,9 @@ void loop() {
     return;                                                // Stay in idle until started
   }
 
-  printShifterDiagnostics();                               // Continuously verify the three shifted ECHO lines
+#if defined(DEV_DIAG)
+  printShifterDiagnostics();
+#endif
   searchAlgorithmStep();                                   // One cell: sense -> map -> plan -> move -> update pose
 }
 
@@ -166,14 +188,38 @@ static void motorStop() {
   analogWrite(R_PWM, 0);                                   // Disable right PWM channel
 }
 
-/* -----------------------------------------------------------------------------
-   MOVEMENT FUNCTIONS (UNTOUCHED ileri() and geri())
-   -----------------------------------------------------------------------------
-   NOTE:
-   - You requested that every line inside ileri() and geri() remains unchanged.
-   - Therefore, there are intentionally no inline comments inside these two
-     functions, and their content is byte-for-byte identical to the prior file.
-*/
+static void motorSet(int left, int right) {
+  left = constrain(left, -PWM_MAX, PWM_MAX);
+  right = constrain(right, -PWM_MAX, PWM_MAX);
+
+  if (left == 0) {
+    digitalWrite(L_IN1, LOW);
+    digitalWrite(L_IN2, LOW);
+    analogWrite(L_PWM, 0);
+  } else if (left > 0) {
+    digitalWrite(L_IN1, HIGH);
+    digitalWrite(L_IN2, LOW);
+    analogWrite(L_PWM, left);
+  } else {
+    digitalWrite(L_IN1, LOW);
+    digitalWrite(L_IN2, HIGH);
+    analogWrite(L_PWM, -left);
+  }
+
+  if (right == 0) {
+    digitalWrite(R_IN1, LOW);
+    digitalWrite(R_IN2, LOW);
+    analogWrite(R_PWM, 0);
+  } else if (right > 0) {
+    digitalWrite(R_IN1, HIGH);
+    digitalWrite(R_IN2, LOW);
+    analogWrite(R_PWM, right);
+  } else {
+    digitalWrite(R_IN1, LOW);
+    digitalWrite(R_IN2, HIGH);
+    analogWrite(R_PWM, -right);
+  }
+}
 
 void ileri(){
 digitalWrite(L_IN1, HIGH);
@@ -259,35 +305,35 @@ analogWrite(L_PWM, 255);
        delaying motion control too long.
 */
 
-static unsigned long hcsr04ReadEchoUs(int echoPin) {
-  digitalWrite(HCSR_TRIG, LOW);                            // Ensure clean low pulse before trigger
+static unsigned long hcsr04ReadEchoUs(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW);                              // Ensure clean low pulse before trigger
   delayMicroseconds(2);                                    // 2us low settles the HC-SR04 trigger circuit
-  digitalWrite(HCSR_TRIG, HIGH);                           // Start 10us trigger pulse (spec requirement)
+  digitalWrite(trigPin, HIGH);                             // Start 10us trigger pulse (spec requirement)
   delayMicroseconds(10);                                   // Keep high for 10us to initiate ultrasonic burst
-  digitalWrite(HCSR_TRIG, LOW);                            // End trigger pulse
+  digitalWrite(trigPin, LOW);                              // End trigger pulse
   return pulseIn(echoPin, HIGH, HCSR_ECHO_TIMEOUT_US);      // Measure echo high time (us) with timeout
 }
 
-static int hcsr04ReadCm(int echoPin) {
-  unsigned long us = hcsr04ReadEchoUs(echoPin);             // Read echo pulse duration in microseconds
+static int hcsr04ReadCm(int trigPin, int echoPin) {
+  unsigned long us = hcsr04ReadEchoUs(trigPin, echoPin);    // Read echo pulse duration in microseconds
   if (us == 0) return -1;                                   // Timeout means no echo or wiring/level fault
   return (int)(us / 58);                                    // Convert us to cm (speed-of-sound approximation)
 }
 
 static bool isWallFront() {
-  int cm = hcsr04ReadCm(HCSR_FRONT_ECHO);                   // Read shifted ECHO channel 1 (front)
+  int cm = hcsr04ReadCm(HCSR_FRONT_TRIG, HCSR_FRONT_ECHO);  // Read shifted ECHO channel 1 (front)
   if (cm < 0) return true;                                  // Fail-safe: treat sensor fault as wall
   return cm < g_wallThresholdCm;                            // Wall if closer than threshold
 }
 
 static bool isWallLeft() {
-  int cm = hcsr04ReadCm(HCSR_LEFT_ECHO);                    // Read shifted ECHO channel 2 (left)
+  int cm = hcsr04ReadCm(HCSR_LEFT_TRIG, HCSR_LEFT_ECHO);    // Read shifted ECHO channel 2 (left)
   if (cm < 0) return true;                                  // Fail-safe: treat sensor fault as wall
   return cm < g_wallThresholdCm;                            // Wall if closer than threshold
 }
 
 static bool isWallRight() {
-  int cm = hcsr04ReadCm(HCSR_RIGHT_ECHO);                   // Read shifted ECHO channel 3 (right)
+  int cm = hcsr04ReadCm(HCSR_RIGHT_TRIG, HCSR_RIGHT_ECHO);  // Read shifted ECHO channel 3 (right)
   if (cm < 0) return true;                                  // Fail-safe: treat sensor fault as wall
   return cm < g_wallThresholdCm;                            // Wall if closer than threshold
 }
@@ -309,7 +355,7 @@ static bool isWallRight() {
 
 static void printOneShifterStatus(int ch, int echoPin) {
   int idle = digitalRead(echoPin);                           // Idle state should normally be LOW
-  int cm = hcsr04ReadCm(echoPin);                            // Quick functional test ping on that channel
+  int cm = hcsr04ReadCm(HCSR_FRONT_TRIG, echoPin);           // Quick functional test ping on that channel
   bool ok = (idle == LOW) && (cm >= 0) && (cm <= 400);       // 400cm is typical HC-SR04 spec max range
 
   Serial.print("SHIFTER ");                                  // Prefix required by your troubleshooting spec
@@ -357,11 +403,31 @@ static void setWall(int x, int y, uint8_t dir) {
   g_walls[nx][ny] |= opp;                                     // Mirror the wall for consistency
 }
 
+static void markKnownEdge(int x, int y, uint8_t dir) {
+  if (x < 0 || x >= MAZE_W || y < 0 || y >= MAZE_H) return;
+  g_known[x][y] |= dir;
+
+  int nx = x;
+  int ny = y;
+  uint8_t opp = 0;
+  if (dir == NORTH) { ny++; opp = SOUTH; }
+  else if (dir == EAST) { nx++; opp = WEST; }
+  else if (dir == SOUTH) { ny--; opp = NORTH; }
+  else { nx--; opp = EAST; }
+
+  if (nx < 0 || nx >= MAZE_W || ny < 0 || ny >= MAZE_H) return;
+  g_known[nx][ny] |= opp;
+}
+
 static void updateWallsFromSensors(bool front, bool left, bool right) {
   static const uint8_t card[4] = {NORTH, EAST, SOUTH, WEST};   // Map heading index to wall direction bit
   uint8_t frontDir = card[g_heading & 3];                     // Convert robot-front to absolute direction
   uint8_t leftDir  = card[(g_heading + 3) & 3];               // Left is heading-1 (mod 4)
   uint8_t rightDir = card[(g_heading + 1) & 3];               // Right is heading+1 (mod 4)
+
+  markKnownEdge(g_x, g_y, frontDir);
+  markKnownEdge(g_x, g_y, leftDir);
+  markKnownEdge(g_x, g_y, rightDir);
 
   if (front) setWall(g_x, g_y, frontDir);                     // Store front wall if detected
   if (left)  setWall(g_x, g_y, leftDir);                      // Store left wall if detected
@@ -442,18 +508,19 @@ static int chooseNextHeading() {
   if (g_x < 0 || g_x >= MAZE_W || g_y < 0 || g_y >= MAZE_H) return -1; // Bounds fail-safe
 
   int bestDir = -1;                                           // Track best direction
-  uint8_t best = 255;                                         // Track best flood distance (lower is better)
+  int bestScore = 100000;
 
   for (int dir = 0; dir < 4; dir++) {                         // Evaluate 4 neighbors
     if (g_walls[g_x][g_y] & wb[dir]) continue;                // Skip if wall blocks this direction
     int nx = g_x + dx[dir];                                   // Neighbor x
     int ny = g_y + dy[dir];                                   // Neighbor y
     if (nx < 0 || nx >= MAZE_W || ny < 0 || ny >= MAZE_H) continue; // Skip out-of-maze moves
-    uint8_t nd = g_dist[nx][ny];                              // Neighbor distance value
-    if (nd < best) {                                          // Choose minimum flood value
-      best = nd;                                              // Store best value
-      bestDir = dir;                                          // Store best heading
-    }
+    int score = (g_dist[nx][ny] == 255) ? 1000 : (int)g_dist[nx][ny];
+    bool known = (g_known[g_x][g_y] & wb[dir]) != 0;
+    if (!known) score += 20;
+    int diff = (dir - (g_heading & 3) + 4) & 3;
+    if (diff == 2) score += 5;
+    if (score < bestScore) { bestScore = score; bestDir = dir; }
   }
 
   return bestDir;                                             // Return chosen heading
@@ -507,6 +574,10 @@ static void turnToHeading(int nextHeading) {
 static void driveOneCellAndUpdatePose() {
   static const int dx[4] = {0, 1, 0, -1};                     // Heading to X delta
   static const int dy[4] = {1, 0, -1, 0};                     // Heading to Y delta
+  static const uint8_t wb[4] = {NORTH, EAST, SOUTH, WEST};
+
+  int ox = g_x;
+  int oy = g_y;
 
   ileri();                                                    // Start forward motion (existing function)
   delay(CELL_TRAVEL_MS);                                      // Keep moving long enough to cross ~20cm
@@ -523,6 +594,8 @@ static void driveOneCellAndUpdatePose() {
 
   g_x = nx;                                                   // Commit pose update after bounds check
   g_y = ny;                                                   // Commit pose update after bounds check
+
+  markKnownEdge(ox, oy, wb[g_heading & 3]);
 }
 
 /* -----------------------------------------------------------------------------
@@ -565,9 +638,11 @@ static void searchAlgorithmStep() {
     while (true) delay(50);                                   // Halt to protect hardware
   }
 
-  bool wF = isWallFront();                                    // Wall detected in front (shifted ECHO CH1)
-  bool wL = isWallLeft();                                     // Wall detected on left (shifted ECHO CH2)
-  bool wR = isWallRight();                                    // Wall detected on right (shifted ECHO CH3)
+  bool wF = isWallFront();
+  delay(HCSR_INTER_PING_MS);
+  bool wL = isWallLeft();
+  delay(HCSR_INTER_PING_MS);
+  bool wR = isWallRight();
 
   updateWallsFromSensors(wF, wL, wR);                         // Convert relative walls into absolute map bits
   updateDistances();                                          // Recompute flood map using discovered walls
@@ -578,14 +653,37 @@ static void searchAlgorithmStep() {
     while (true) delay(50);                                   // Hold position (competition requires stop)
   }
 
-  int nextHeading = chooseNextHeading();                      // Decide next move based on flood values
+  int nextHeading = -1;
+  bool frontClear = false;
+  for (int tries = 0; tries < 8; tries++) {
+    nextHeading = chooseNextHeading();
+    if (nextHeading < 0) break;
+    turnToHeading(nextHeading);
+
+    bool fw = isWallFront();
+    delay(HCSR_INTER_PING_MS);
+    bool lw = isWallLeft();
+    delay(HCSR_INTER_PING_MS);
+    bool rw = isWallRight();
+
+    updateWallsFromSensors(fw, lw, rw);
+    updateDistances();
+
+    if (!fw) { frontClear = true; break; }
+  }
+
   if (nextHeading < 0) {                                      // If no valid move, stop to avoid crash
     motorStop();                                              // Motors off
     Serial.println("NO MOVE");                                // Diagnostics marker
     while (true) delay(50);                                   // Fail-stop
   }
 
-  turnToHeading(nextHeading);                                 // Turn robot to face chosen neighbor direction
+  if (!frontClear) {
+    motorStop();
+    Serial.println("FRONT BLOCKED");
+    while (true) delay(50);
+  }
+
   driveOneCellAndUpdatePose();                                // Drive forward one cell and update pose
 
   Serial.print("POSE ");                                      // Human-readable pose output

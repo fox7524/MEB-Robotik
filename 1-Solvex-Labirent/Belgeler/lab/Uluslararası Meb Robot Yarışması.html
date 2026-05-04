@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://robot.meb.gov.tr/kategoriler/labirent-ustasi -->
+<html lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Uluslararası Meb Robot Yarışması</title>
+			<!-- CSS here -->
+
+			<link rel="icon" type="image/png" href="https://robot.meb.gov.tr/favicon/favicon-96x96.png" sizes="96x96">
+			<link rel="icon" type="image/svg+xml" href="https://robot.meb.gov.tr/favicon/favicon.svg">
+			<link rel="shortcut icon" href="https://robot.meb.gov.tr/favicon/favicon.ico">
+			<link rel="apple-touch-icon" sizes="180x180" href="https://robot.meb.gov.tr/favicon/apple-touch-icon.png">
+			<meta name="apple-mobile-web-app-title" content="MEB ROBOT">
+			<link rel="manifest" href="https://robot.meb.gov.tr/favicon/site.webmanifest">
+			<style>
+				.loader {
+					transform: rotateZ(45deg);
+					perspective: 1000px;
+					border-radius: 50%;
+					width: 48px;
+					height: 48px;
+					color: #fff;
+				}
+
+					.loader:before,
+					.loader:after {
+						content: '';
+						display: block;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: inherit;
+						height: inherit;
+						border-radius: 50%;
+						transform: rotateX(70deg);
+						animation: 1s spin linear infinite;
+					}
+
+					.loader:after {
+						color: #FF3D00;
+						transform: rotateY(70deg);
+						animation-delay: .4s;
+					}
+
+				@keyframes rotate {
+			0% {
+				transform: translate(-50%, -50%) rotateZ(0deg);
+			}
+
+			100% {
+				transform: translate(-50%, -50%) rotateZ(360deg);
+			}
+		}
+
+				@keyframes rotateccw {
+			0% {
+				transform: translate(-50%, -50%) rotate(0deg);
+			}
+
+			100% {
+				transform: translate(-50%, -50%) rotate(-360deg);
+			}
+		}
+
+				@keyframes spin {
+			0%,
+			100% {
+				box-shadow: .2em 0px 0 0px currentcolor;
+			}
+
+			12% {
+				box-shadow: .2em .2em 0 0 currentcolor;
+			}
+
+			25% {
+				box-shadow: 0 .2em 0 0px currentcolor;
+			}
+
+			37% {
+				box-shadow: -.2em .2em 0 0 currentcolor;
+			}
+
+			50% {
+				box-shadow: -.2em 0 0 0 currentcolor;
+			}
+
+			62% {
+				box-shadow: -.2em -.2em 0 0 currentcolor;
+			}
+
+			75% {
+				box-shadow: 0px -.2em 0 0 currentcolor;
+			}
+
+			87% {
+				box-shadow: .2em -.2em 0 0 currentcolor;
+			}
+		}
+	</style>
+
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com/">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+	<link href="./Uluslararası Meb Robot Yarışması_files/css2" rel="stylesheet">
+	<link rel="stylesheet" href="./Uluslararası Meb Robot Yarışması_files/styles.css">
+
+	<link rel="stylesheet" href="./Uluslararası Meb Robot Yarışması_files/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+	<script src="./Uluslararası Meb Robot Yarışması_files/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+	<script src="./Uluslararası Meb Robot Yarışması_files/notyf.min.js"></script>
+	<link rel="stylesheet" href="./Uluslararası Meb Robot Yarışması_files/notyf.min.css">
+
+	<!-- FancyBox CSS ve JS -->
+	<link rel="stylesheet" href="./Uluslararası Meb Robot Yarışması_files/jquery.fancybox.min.css">
+	<script src="./Uluslararası Meb Robot Yarışması_files/jquery.fancybox.min.js">
+	</script>
+
+	<style>
+		.pdf-link {
+			display: block;
+			margin: 10px 0;
+			padding: 5px 10px;
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			border-radius: 5px;
+		}
+
+				@media (max-width: 767px) {
+			.tp-project__thumb img {
+				object-fit: none;
+			}
+		}
+
+		.header-bottom__btn a {
+			margin-left: 5px !important;
+		}
+
+		.modal-header {
+			justify-content: left !important;
+		}
+
+		.modal-title {
+			margin-left: 10px;
+		}
+
+		.modal-backdrop.fade.show {
+			display: none;
+		}
+
+		div.modal {
+			margin-top: 100px;
+		}
+	</style>
+
+	<script>
+		function showLoader() {
+			document.querySelector('.loader').style.display = 'block';
+		}
+
+		function hideLoader() {
+			document.querySelector('.loader').style.display = 'none';
+		}
+	</script>
+
+
+	<link href="./Uluslararası Meb Robot Yarışması_files/lucide.min.css" rel="stylesheet">
+	<link href="./Uluslararası Meb Robot Yarışması_files/all(1).min.css" rel="stylesheet">
+
+
+	<script src="./Uluslararası Meb Robot Yarışması_files/index.js"></script>
+	<script>window.HSStaticMethods.autoInit();</script>
+
+	<style>
+		/* Tüm sayfada geçerli scrollbar stilleri */
+		::-webkit-scrollbar {
+			width: 4px;
+			height: 4px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: linear-gradient(to bottom, #47ccd0, #1c4193);
+		}
+	</style>
+	
+</head>
+<body>
+
+<div b-wd45zu1qth="" id="konaklamaModal" class="fixed inset-0 z-50 hidden items-start sm:items-center justify-center bg-black/50 p-3 sm:p-4 overflow-y-auto">
+	<div b-wd45zu1qth="" class="bg-white w-full max-w-2xl rounded-lg sm:rounded-xl shadow-2xl flex flex-col my-auto max-h-[90vh]">
+
+	<!-- Header -->
+	<div b-wd45zu1qth="" class="bg-red-600 text-white px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-start gap-3 shrink-0">
+		<h2 b-wd45zu1qth="" class="text-sm sm:text-base font-semibold leading-snug">🏨 Konaklama: Özel Konaklama Tesisleri Bilgilendirmesi</h2>
+
+		<button b-wd45zu1qth="" onclick="close2Modal()" class="text-white text-xl hover:opacity-80 shrink-0 leading-none mt-0.5">
+			✕
+		</button>
+	</div>
+
+	<!-- Body -->
+	<div b-wd45zu1qth="" class="p-4 sm:p-6 space-y-4 text-gray-700 overflow-y-auto text-sm sm:text-base">
+
+        <p b-wd45zu1qth="">
+            Yarışma süresince konaklama ihtiyacı duyacak yarışmacılara ilişkin "Özel Konaklama Tesislerine"
+            yönelik bilgilendirme tablosu ile "Kültür ve Turizm Bakanlığından Belgeli Konaklama Tesisleri"
+            tablosu Konaklama koordinasyon Merkezi tarafından aşağıda sunulmuştur.
+        </p>
+
+        <div b-wd45zu1qth="" class="bg-gray-50 border rounded-lg p-4 space-y-3 text-sm">
+            <p b-wd45zu1qth="">● Söz konusu liste, yeni Konaklama Tesisleri eklendikçe her iş günü saat 17.00’da güncellenecektir.</p>
+            <p b-wd45zu1qth="">! Tesisler yalnızca bilgilendirme amaçlı belirtilmiş olup, herhangi bir tavsiye niteliği taşımamaktadır.</p>
+            <p b-wd45zu1qth="">● Belirtilen fiyatlar tesislerin politikalarına göre günlük olarak değişiklik gösterebilir.</p>
+        </div>
+
+        <div b-wd45zu1qth="" class="space-y-3">
+            <p b-wd45zu1qth="" class="font-semibold">Detaylı bilgi için duyuruya aşağıdaki bağlantıdan ulaşabilirsiniz:</p>
+
+			<a b-wd45zu1qth="" href="https://robot.meb.gov.tr/duyurular/ozel-konaklama-tesileri-hakkinda-bilgilendirme" target="_blank" class="text-red-600 hover:underline break-all text-sm">
+                https://robot.meb.gov.tr/duyurular/ozel-konaklama-tesileri-hakkinda-bilgilendirme
+            </a>
+        </div>
+
+        <p b-wd45zu1qth="" class="text-sm text-gray-600">
+            Tesislerle iletişime geçerek güncel müsaitlik durumunu teyit etmeniz önerilir.
+        </p>
+
+    </div>
+
+	<!-- Footer -->
+	<div b-wd45zu1qth="" class="px-4 py-3 sm:px-6 sm:py-4 bg-gray-50 flex justify-end shrink-0">
+		<button b-wd45zu1qth="" onclick="close2Modal()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition text-sm sm:text-base">
+			Tamam
+		</button>
+	</div>
+
+</div>
+</div>
+
+<script>
+
+function open2Modal(){
+    const modal = document.getElementById("konaklamaModal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+}
+
+function close2Modal(){
+    const modal = document.getElementById("konaklamaModal");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+}
+
+window.onload = function(){
+
+	if(!localStorage.getItem("konaklamaduyuruGosterildi")){
+		open2Modal();
+        localStorage.setItem("konaklamaduyuruGosterildi", true);
+    }
+
+}
+
+</script>
+
+	
+	<main b-wd45zu1qth="" role="main">
+		<script>
+			const noty = new Notyf({
+				duration: 5500,
+				position: {
+					x: 'center',
+					y: 'top',
+				}
+			});
+		</script>
+		
+
+<header class="top-0 left-0 w-full bg-white shadow-md border-b">
+    <div class="container mx-auto flex items-center justify-between px-6">
+        <!-- Logo ve Banner -->
+        <div class="flex items-center">
+            <a href="https://robot.meb.gov.tr/" class="flex items-center">
+                    <img src="./Uluslararası Meb Robot Yarışması_files/robot-logo.png" alt="logo" class="w-[100px]">
+            </a>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="hidden md:flex items-center">
+            <ul id="navbarMenus" class="flex space-x-6 items-center">
+                <li><a href="https://robot.meb.gov.tr/" class="text-gray-800 font-medium hover:text-blue-500 transition">Anasayfa</a></li>
+            <li class="relative group">
+                    <button class="peer text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center">
+                Katılım ve Başvuru
+                        <i class="fa-solid fa-chevron-down ml-2 text-sm"></i>
+                    </button>
+                    <ul class="absolute left-0 top-full w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] opacity-0 invisible
+                         peer-hover:opacity-100 peer-hover:visible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible
+                         transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-[500px] overflow-y-auto">
+                <li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/kimler-katilabilir">Kimler Katılabilir?</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/basvuru-sureci">Başvuru Süreci</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/basvuru-belgeleri">Başvuru Belgeleri</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/on-eleme-sureci-ve-robot-uretim-raporu">Ön Eleme Süreci  ve Robot Üretim Raporu</a></li>
+                    </ul>
+            </li>
+            
+            <li class="relative group">
+                    <button class="peer text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center">
+                Yarışma Süreci
+                        <i class="fa-solid fa-chevron-down ml-2 text-sm"></i>
+                    </button>
+                    <ul class="absolute left-0 top-full w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] opacity-0 invisible
+                         peer-hover:opacity-100 peer-hover:visible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible
+                         transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-[500px] overflow-y-auto">
+                <li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kura-kaydi">Kura Kaydı</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/yarisma-sureci/kura-sureci">Kura Süreci</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/yarisma-sureci/yarisma-alanlarina-giris-ve-musabaka-prosedurleri">Yarışma Alanlarına Giriş ve Müsabaka Prosedürleri</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/yarisma-sureci/yarisma-alani-kurallari">Yarışma Alanı Kuralları</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/yarisma-sureci/degerlendirme-ve-itiraz-sureci">Değerlendirme ve İtiraz Süreci</a></li>
+                    </ul>
+            </li>
+            
+            <li class="relative group">
+                    <button class="peer text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center">
+                Kategoriler
+                        <i class="fa-solid fa-chevron-down ml-2 text-sm"></i>
+                    </button>
+                    <ul class="absolute left-0 top-full w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] opacity-0 invisible
+                         peer-hover:opacity-100 peer-hover:visible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible
+                         transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-[500px] overflow-y-auto">
+                <li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/cizgi-izleyen-temel-seviye">Çizgi İzleyen Temel Seviye</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/su-ustu-robot">Su Üstü Robot</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/tasarla-calistir-temel-seviye">Tasarla Çalıştır Temel Seviye</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/tozkoparan-robot">Tozkoparan Robot</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/endustriyel-robotik-kol">Endüstriyel Robotik Kol</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/hizli-cizgi-izleyen">Hızlı Çizgi İzleyen</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/insansiz-hava-araci">İnsansız Hava Aracı</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi">Labirent Ustası</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/mini-sumo">Mini Sumo</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/otonom-arac-0">Otonom Araç</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/rc-sabit-kanat-ucak-0">RC Sabit Kanat Uçak</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/serbest-proje-16">Serbest Proje</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/siber-guvenlik">Siber Güvenlik</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/su-alti-robotu--sar-">Su Altı Robotu (SAR)</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/tasarla--calistir-17">Tasarla - Çalıştır</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/kategoriler/yumurta-toplama-caretta-caretta-">Yumurta Toplama (Caretta Caretta) </a></li>
+                    </ul>
+            </li>
+            
+            <li class="relative group">
+                    <button class="peer text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center">
+                Organizasyon
+                        <i class="fa-solid fa-chevron-down ml-2 text-sm"></i>
+                    </button>
+                    <ul class="absolute left-0 top-full w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] opacity-0 invisible
+                         peer-hover:opacity-100 peer-hover:visible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible
+                         transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-[500px] overflow-y-auto">
+                <li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/organizasyon/uygulama-kilavuzu">Uygulama Kılavuzu</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-hakkinda">Yarışma Hakkında</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-takvimi-">Yarışma Takvimi </a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/yarisma-yeri">Yarışma Yeri</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-odulleri">Yarışma Ödülleri</a></li>
+                    </ul>
+            </li>
+            
+            <li class="relative group">
+                    <button class="peer text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center">
+                Destek
+                        <i class="fa-solid fa-chevron-down ml-2 text-sm"></i>
+                    </button>
+                    <ul class="absolute left-0 top-full w-64 bg-white border border-gray-300 rounded-lg shadow-lg z-[9999] opacity-0 invisible
+                         peer-hover:opacity-100 peer-hover:visible group-hover:opacity-100 group-hover:visible hover:opacity-100 hover:visible
+                         transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-[500px] overflow-y-auto">
+                <li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/destek/teknik-destek">Teknik Destek</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/destek/iletisim">İletişim</a></li><li><a class="block px-6 py-3 text-gray-800 text-base hover:bg-gray-100 transition" href="https://robot.meb.gov.tr/destek/kvkk-ve-gizlilik">KVKK ve Gizlilik</a></li>
+                    </ul>
+            </li>
+            <li><a href="https://robot.meb.gov.tr/galeri" class="text-gray-800 font-medium hover:text-blue-500 transition">Galeri</a></li>
+            </ul>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center space-x-3">
+            <!-- Language Change Button for Desktop -->
+            <button id="language-change-button" class="hidden md:block border border-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition">
+                <i class="fa-solid fa-language"></i>
+                    <span>English</span>
+            </button>
+
+            <!-- Authentication Logic for Desktop -->
+                <a href="https://robot.meb.gov.tr/giris-yap" class="hidden md:block bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-500 text-white px-5 py-2 rounded-lg transition relative overflow-hidden group">
+                    <span class="relative z-10">
+                    Giriş Yap
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mirror-effect"></div>
+                </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden border border-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Right Side) -->
+    <div id="mobileMenu" class="fixed top-0 right-0 w-72 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-x-auto">
+        <div class="p-4">
+            <button id="closeMobileMenu" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <ul class="mt-8 space-y-2">
+                <li class="mb-2"><a href="https://robot.meb.gov.tr/" class="text-gray-800 font-medium hover:text-blue-500 transition block">Anasayfa</a></li>
+            <li class="mb-2">
+                <button class="text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center w-full justify-between" onclick="toggleMobileSubmenu(this)">
+            Katılım ve Başvuru
+                    <i class="fa-solid fa-chevron-down ml-2 text-sm transition-transform"></i>
+                </button>
+                <ul class="hidden mt-2 ml-4 space-y-2">
+            <li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/kimler-katilabilir">Kimler Katılabilir?</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/basvuru-sureci">Başvuru Süreci</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/basvuru-belgeleri">Başvuru Belgeleri</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/katilim-ve-basvuru/on-eleme-sureci-ve-robot-uretim-raporu">Ön Eleme Süreci  ve Robot Üretim Raporu</a></li>
+                </ul>
+            </li>
+            
+            <li class="mb-2">
+                <button class="text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center w-full justify-between" onclick="toggleMobileSubmenu(this)">
+            Yarışma Süreci
+                    <i class="fa-solid fa-chevron-down ml-2 text-sm transition-transform"></i>
+                </button>
+                <ul class="hidden mt-2 ml-4 space-y-2">
+            <li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kura-kaydi">Kura Kaydı</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/yarisma-sureci/kura-sureci">Kura Süreci</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/yarisma-sureci/yarisma-alanlarina-giris-ve-musabaka-prosedurleri">Yarışma Alanlarına Giriş ve Müsabaka Prosedürleri</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/yarisma-sureci/yarisma-alani-kurallari">Yarışma Alanı Kuralları</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/yarisma-sureci/degerlendirme-ve-itiraz-sureci">Değerlendirme ve İtiraz Süreci</a></li>
+                </ul>
+            </li>
+            
+            <li class="mb-2">
+                <button class="text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center w-full justify-between" onclick="toggleMobileSubmenu(this)">
+            Kategoriler
+                    <i class="fa-solid fa-chevron-down ml-2 text-sm transition-transform"></i>
+                </button>
+                <ul class="hidden mt-2 ml-4 space-y-2">
+            <li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/cizgi-izleyen-temel-seviye">Çizgi İzleyen Temel Seviye</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/su-ustu-robot">Su Üstü Robot</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/tasarla-calistir-temel-seviye">Tasarla Çalıştır Temel Seviye</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/tozkoparan-robot">Tozkoparan Robot</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/endustriyel-robotik-kol">Endüstriyel Robotik Kol</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/hizli-cizgi-izleyen">Hızlı Çizgi İzleyen</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/insansiz-hava-araci">İnsansız Hava Aracı</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi">Labirent Ustası</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/mini-sumo">Mini Sumo</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/otonom-arac-0">Otonom Araç</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/rc-sabit-kanat-ucak-0">RC Sabit Kanat Uçak</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/serbest-proje-16">Serbest Proje</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/siber-guvenlik">Siber Güvenlik</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/su-alti-robotu--sar-">Su Altı Robotu (SAR)</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/tasarla--calistir-17">Tasarla - Çalıştır</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/kategoriler/yumurta-toplama-caretta-caretta-">Yumurta Toplama (Caretta Caretta) </a></li>
+                </ul>
+            </li>
+            
+            <li class="mb-2">
+                <button class="text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center w-full justify-between" onclick="toggleMobileSubmenu(this)">
+            Organizasyon
+                    <i class="fa-solid fa-chevron-down ml-2 text-sm transition-transform"></i>
+                </button>
+                <ul class="hidden mt-2 ml-4 space-y-2">
+            <li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/organizasyon/uygulama-kilavuzu">Uygulama Kılavuzu</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-hakkinda">Yarışma Hakkında</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-takvimi-">Yarışma Takvimi </a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/yarisma-yeri">Yarışma Yeri</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/organizasyon/yarisma-odulleri">Yarışma Ödülleri</a></li>
+                </ul>
+            </li>
+            
+            <li class="mb-2">
+                <button class="text-gray-800 font-medium hover:text-blue-500 transition focus:outline-none flex items-center w-full justify-between" onclick="toggleMobileSubmenu(this)">
+            Destek
+                    <i class="fa-solid fa-chevron-down ml-2 text-sm transition-transform"></i>
+                </button>
+                <ul class="hidden mt-2 ml-4 space-y-2">
+            <li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/destek/teknik-destek">Teknik Destek</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/destek/iletisim">İletişim</a></li><li><a class="block text-gray-800 text-base hover:text-blue-500 transition" href="https://robot.meb.gov.tr/destek/kvkk-ve-gizlilik">KVKK ve Gizlilik</a></li>
+                </ul>
+            </li>
+            <li class="mb-2"><a href="https://robot.meb.gov.tr/galeri" class="text-gray-800 font-medium hover:text-blue-500 transition block">Galeri</a></li>
+            </ul>
+
+            <!-- Language Change Button for Mobile -->
+            <button id="language-change-button-mobile" class="w-full text-left border border-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition mt-4">
+                <i class="fa-solid fa-language mr-2"></i>
+                    <span>English</span>
+            </button>
+
+            <!-- Authentication Logic for Mobile -->
+                <a href="https://robot.meb.gov.tr/giris-yap" class="block w-full text-center bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-500 text-white px-5 py-2 rounded-lg mt-4 transition relative overflow-hidden group">
+                    <span class="relative z-10">
+                    	Giriş Yap
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mirror-effect"></div>
+                </a>
+            <!-- Banner Image -->
+            <div class="absolute bottom-24 left-0 right-0 flex justify-center items-center p-4">
+                <img src="./Uluslararası Meb Robot Yarışması_files/navbarBanner.png" alt="banner" class="w-full object-contain">
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<style>
+    .mirror-effect {
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+    }
+
+    @keyframes gradient-shift {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    /* Add this new style for the mobile menu overlay */
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        z-index: 40;
+    }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+</style>
+
+<script>
+    // Language change functionality
+    function setupLanguageChange(buttonId) {
+        let languageChangeButton = document.querySelector(buttonId);
+        languageChangeButton.addEventListener('click', async function () {
+            let selectedLanguage = parseInt('1');
+            let newLanguage = selectedLanguage === 1 ? 2 : 1;
+
+            let res = await fetch(`/dil-degistir/${newLanguage}`, {
+                method: "GET",
+            });
+            if (newLanguage == 2)
+                window.location.href = "/home";
+            else
+                window.location.href = "/";
+        });
+    }
+
+    setupLanguageChange('#language-change-button');
+    setupLanguageChange('#language-change-button-mobile');
+
+    // Mobile menu toggle functionality
+    let mobileMenuBtn = document.querySelector('#mobileMenuBtn');
+    let mobileMenu = document.querySelector('#mobileMenu');
+    let closeMobileMenu = document.querySelector('#closeMobileMenu');
+    let body = document.body;
+
+    // Create overlay element
+    let overlay = document.createElement('div');
+    overlay.classList.add('mobile-menu-overlay');
+    body.appendChild(overlay);
+
+    function toggleMobileMenu() {
+        mobileMenu.classList.toggle('translate-x-full');
+        body.classList.toggle('overflow-hidden');
+        overlay.classList.toggle('active');
+    }
+
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    closeMobileMenu.addEventListener('click', toggleMobileMenu);
+    overlay.addEventListener('click', toggleMobileMenu);
+
+    // Mobile submenu toggle functionality
+    function toggleMobileSubmenu(button) {
+        let submenu = button.nextElementSibling;
+        submenu.classList.toggle('hidden');
+        let icon = button.querySelector('i');
+        icon.style.transform = submenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    // Desktop dropdown functionality
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        // Toggle notification dropdown
+        notificationButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationButton.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+    });
+</script>
+
+
+		
+
+
+
+
+<script>
+    let sayfaId = 1822;
+</script>
+
+<style>
+    /* Seçili menü öğesi için stil */
+    .menu-item.active {
+        background: linear-gradient(to right, #06b6d4, #3b82f6); /* Cyan -> Blue gradyan */
+        color: white;
+    }
+
+    /* Hover efekti */
+    .menu-item:hover {
+        background: linear-gradient(to right, #06b6d4, #3b82f6); /* Koyu Cyan -> Koyu Mavi */
+        color: white;
+        transition: all .5s ease-in-out;
+    }
+
+    @keyframes upDown {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .animate-up-down {
+        animation: upDown 4s infinite ease-in-out; /* 4 saniye sürede tamamlanan daha yavaş hareket */
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .delay-100 {
+        animation-delay: 0.1s;
+    }
+
+    .delay-200 {
+        animation-delay: 0.2s;
+    }
+
+    .delay-300 {
+        animation-delay: 0.3s;
+    }
+</style>
+
+    <div class="relative bg-gradient-to-r from-cyan-400 via-blue-500 py-12 overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="fade-in">
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                        Labirent Ustası
+                    </h1>
+                    <div class="text-white text-opacity-90 mt-2 text-lg">
+                        <asp:literal id="lblSiteMap" runat="server">
+                    </asp:literal></div>
+                </div>
+                <div class="mt-6 md:mt-0 fade-in delay-200">
+                    <img src="./Uluslararası Meb Robot Yarışması_files/kus.png" alt="" class="w-32 md:w-40 animate-up-down">
+                </div>
+            </div>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-20"></div>
+    </div>
+
+
+    <div class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Sayfa İçi Menü -->
+                    <div class="lg:col-span-3 fade-in delay-100">
+                        <div class="bg-white p-6 shadow-lg rounded-lg sticky top-4">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Menü</h3>
+                            <ul class="space-y-2">
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/cizgi-izleyen-temel-seviye" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Çizgi İzleyen Temel Seviye
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/su-ustu-robot" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Su Üstü Robot
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/tasarla-calistir-temel-seviye" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Tasarla Çalıştır Temel Seviye
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/tozkoparan-robot" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Tozkoparan Robot
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/endustriyel-robotik-kol" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Endüstriyel Robotik Kol
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/hizli-cizgi-izleyen" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Hızlı Çizgi İzleyen
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/insansiz-hava-araci" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            İnsansız Hava Aracı
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out active">
+                                            Labirent Ustası
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/mini-sumo" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Mini Sumo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/otonom-arac-0" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Otonom Araç
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/rc-sabit-kanat-ucak-0" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            RC Sabit Kanat Uçak
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/serbest-proje-16" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Serbest Proje
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/siber-guvenlik" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Siber Güvenlik
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/su-alti-robotu--sar-" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Su Altı Robotu (SAR)
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/tasarla--calistir-17" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Tasarla - Çalıştır
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://robot.meb.gov.tr/kategoriler/yumurta-toplama-caretta-caretta-" class="menu-item block px-4 py-2 rounded-lg hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 hover:text-white transition-all duration-300 ease-in-out ">
+                                            Yumurta Toplama (Caretta Caretta) 
+                                        </a>
+                                    </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                <!-- İçerik -->
+                <div class="lg:col-span-9 fade-in delay-200">
+                    <div class="bg-white p-8 shadow-lg rounded-lg">
+                        <article>
+                            <div class="prose lg:prose-xl max-w-none">
+                                <!-- HERO -->
+<div class="mb-8 rounded-2xl p-8 text-white shadow-lg" style="background: linear-gradient(90deg, #111827 0%, #2563eb 100%);">
+<h1 class="text-3xl font-bold mb-3">Labirent Ustası</h1>
+
+<p class="max-w-3xl text-base leading-relaxed opacity-95">Lise ve üniversite seviyesindeki öğrencilerin, otonom labirent çözen robotlar geliştirerek yol bulma, sensör kullanımı ve karar verme yeteneklerini sergilediği yarışma kategorisi.</p>
+</div>
+<!-- ÖNEMLİ -->
+
+<div class="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 p-5 text-sm text-gray-800"><strong>Önemli:</strong> Bu sayfada yer alan bilgiler özet niteliğindedir. Labirent Ustası kategorisine katılan tüm takımların resmi kategori kılavuzunu ve Uygulama Kılavuzunu eksiksiz okuması zorunludur.</div>
+<!-- AMAÇ -->
+
+<div class="mb-6 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-3 text-xl font-semibold flex items-center gap-2">🎯 Amaç</h2>
+
+<p class="text-gray-700 leading-relaxed">Labirent çözen robotlar; sensör teknolojileri, motor kontrolü, yol bulma algoritmaları, haritalama ve otonom karar verme becerilerinin geliştirilmesi için ideal bir platform sunar. Bu kategorinin amacı, öğrencilerin otonom sistemler ve gömülü yazılım alanlarında teknik yetkinlik kazanmalarını sağlamaktır.</p>
+</div>
+<!-- TEMA -->
+
+<div class="mb-6 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-3 text-xl font-semibold flex items-center gap-2">🧩 Tema</h2>
+
+<p class="text-gray-700 leading-relaxed">Yarışmada, başlangıç noktasından hareket eden otonom robotun, siyah zemin ve beyaz duvarlardan oluşan labirenti en kısa sürede ve en az ceza alarak tamamlaması hedeflenir. Robotlar, labirent içinde kendi kararlarını vererek bitiş noktasına ulaşır.</p>
+</div>
+<!-- KATILIM -->
+
+<div class="mb-6 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-4 text-xl font-semibold flex items-center gap-2">👥 Katılımcı Şartları ve Takım Yapısı</h2>
+
+<ul class="space-y-2 text-gray-700">
+	<li>✔ Lise ve üniversite öğrencileri katılabilir</li>
+	<li>✔ Takımlar <strong>2 öğrenci + 1 danışman</strong>dan oluşur</li>
+	<li>✔ Yarışma alanına yalnızca <strong>1 yarışmacı</strong> alınır</li>
+	<li>✔ Üniversite danışman şartı Uygulama Kılavuzunda belirtilmiştir</li>
+</ul>
+</div>
+<!-- TEKNİK -->
+
+<div class="mb-6 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-6 text-xl font-semibold flex items-center gap-2">⚙️ Robotun Teknik Özellikleri ve Kısıtlamalar</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="rounded-xl border p-4">
+<div class="text-sm text-gray-500">Boyut ve Ağırlık</div>
+
+<div class="font-semibold">Boyut ve ağırlık için kesin bir sınır yoktur</div>
+</div>
+
+<div class="rounded-xl border p-4">
+<div class="text-sm text-gray-500">Sensör Kullanımı</div>
+
+<div class="font-semibold">Ultrasonik, IR, LIDAR vb. sensörler serbesttir</div>
+</div>
+
+<div class="rounded-xl border p-4">
+<div class="text-sm text-gray-500">Çalışma Tipi</div>
+
+<div class="font-semibold">Tamamen otonom</div>
+</div>
+
+<div class="rounded-xl border p-4">
+<div class="text-sm text-gray-500">Uzaktan Erişim</div>
+
+<div class="font-semibold text-red-600">Yasak (Wi-Fi, Bluetooth, kablolu/kablosuz kontrol)</div>
+</div>
+
+<div class="rounded-xl border p-4 md:col-span-2">
+<div class="text-sm text-gray-500">Buton ve Anahtarlar</div>
+
+<div class="font-semibold">Başlatma butonu haricinde ayar değiştirici donanım bulunamaz</div>
+</div>
+</div>
+</div>
+<!-- YARIŞMA ALANI -->
+
+<div class="mb-6 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-4 text-xl font-semibold flex items-center gap-2">🏁 Yarışma Alanı ve Görevler</h2>
+
+<ul class="list-disc list-inside space-y-2 text-gray-700">
+	<li>Labirent matrisi <strong>8 × 16</strong> hücreden oluşur</li>
+	<li>Her hücre <strong>20 cm × 20 cm</strong> boyutundadır</li>
+	<li>Duvarlar beyaz, zemin siyah renklidir</li>
+	<li>Çıkmaz sokaklar ve kapalı hücreler bulunabilir</li>
+	<li>Final turunda pist yapısında değişiklik yapılabilir</li>
+</ul>
+</div>
+<!-- FORMAT -->
+
+<div class="mb-8 rounded-2xl bg-white p-6 shadow">
+<h2 class="mb-4 text-xl font-semibold flex items-center gap-2">🏆 Yarışma Formatı ve Değerlendirme Kriterleri</h2>
+
+<ul class="list-disc list-inside space-y-2 text-gray-700">
+	<li>Yarışma <strong>1. Tur</strong> ve <strong>Final Turu</strong>ndan oluşur</li>
+	<li>1. tur sonunda en iyi süreye sahip <strong>60 robot</strong> finale kalır</li>
+	<li>Pisti tamamlayan robotlarda süre + ceza esas alınır</li>
+	<li>Pisti tamamlayamayan robotlarda bulunulan hücreye göre süre hesaplanır</li>
+	<li>Süre eşitliğinde <strong>daha hafif robot</strong> üst sırada yer alır</li>
+</ul>
+</div>
+<!-- CTA -->
+
+<div class="flex justify-center"><a class="rounded-full bg-red-600 px-8 py-3 font-semibold text-white shadow hover:bg-red-700 transition" href="https://robot.meb.gov.tr/yukleme/Robot2026/8_labirent_ustasi.pdf">📄 Kategori Kılavuzunu İndir (PDF) </a></div>
+
+                            </div>
+                            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-y-5 lg:gap-y-0 mt-5">
+                                <!-- Badges/Tags -->
+                                <div>
+                                    <!-- Button -->
+                                    <div class="hs-tooltip inline-block">
+                                        <button type="button" class="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                                            <i class="fa-regular fa-calendar-check"></i>
+                                            17.02.2025
+                                            <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-black" role="tooltip" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: fixed; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(37.5px, -58px, 0px);">
+                                                    Kayıt Tarihi
+                                                </span>
+                                        </button>
+                                    </div>
+                                    <!-- Button -->
+                                </div>
+                                <!-- End Badges/Tags -->
+
+                                <div class="flex justify-end items-center gap-x-1.5">
+                                    <!-- Button -->
+                                    <div class="hs-tooltip inline-block">
+                                        <button type="button" class="hs-tooltip-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+                                            <i class="fa-regular fa-eye"></i>
+                                            2
+                                            <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-black" role="tooltip" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: fixed; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(724.5px, -59px, 0px);">
+                                                    Gösterim Sayısı
+                                                </span>
+                                        </button>
+                                    </div>
+                                    <!-- Button -->
+
+                                    <div class="block h-3 border-e border-gray-300 mx-3 dark:border-neutral-600"></div>
+
+                                    <!-- Button -->
+                                    <div class="hs-dropdown relative inline-flex">
+                                        <button id="hs-blog-article-share-dropdown" type="button" class="hs-dropdown-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                                                <polyline points="16 6 12 2 8 6"></polyline>
+                                                <line x1="12" x2="12" y1="2" y2="15"></line>
+                                            </svg>
+                                            Paylaş
+                                        </button>
+                                        <div class="hs-dropdown-menu w-56 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mb-1 z-10 bg-gray-900 shadow-md rounded-xl p-2 dark:bg-black" role="menu" aria-orientation="vertical" aria-labelledby="hs-blog-article-share-dropdown">
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 hover:bg-white/10 focus:outline-none focus:bg-white/10 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                                </svg>
+                                                Linki Kopyala
+                                            </a>
+                                            <div class="border-t border-gray-600 my-2 dark:border-neutral-800"></div>
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 hover:bg-white/10 focus:outline-none focus:bg-white/10 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                                                </svg>
+                                                Twitter'da Paylaş
+                                            </a>
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 hover:bg-white/10 focus:outline-none focus:bg-white/10 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
+                                                </svg>
+                                                Facebook'ta Paylaş
+                                            </a>
+                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 hover:bg-white/10 focus:outline-none focus:bg-white/10 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:focus:bg-neutral-900" href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#">
+                                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"></path>
+                                                </svg>
+                                                LinkedIn'da Paylaş
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Galeri -->
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, {threshold: 0.1});
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    });
+</script>
+
+
+				<footer class="bg-gray-100 border-t">
+    <div class="container mx-auto py-12 px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Logo and Contact Section -->
+            <div>
+                <div class="mb-4">
+
+                        <img src="./Uluslararası Meb Robot Yarışması_files/robot-logo.png" alt="Robot Yarışması Logo" class="w-60 h-auto">
+                </div>
+                <h3 class="text-sm text-gray-600 mb-3">
+                    MESLEKÎ VE TEKNİK EĞİTİM GENEL MÜDÜRLÜĞÜ
+                </h3>
+                <div>
+                    <p class="mb-2">
+                        <a href="tel:+903124131302" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 flex items-center group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            +90 (312) 413 13 02
+                        </a>
+                    </p>
+                    <p>
+                        <a href="mailto:robotyarismasi@meb.gov.tr" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 flex items-center group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            robotyarismasi@meb.gov.tr
+
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div>
+                <h3 class="text-sm font-semibold text-gray-800 mb-4">
+                    BAĞLANTILAR
+                </h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="https://www.meb.gov.tr/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 group flex items-center">
+                            MEB
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://tika.gov.tr/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 group flex items-center">
+                            TİKA
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://tubitak.gov.tr/tr" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 group flex items-center">
+                            TÜBİTAK
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.teknofest.org/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 group flex items-center">
+                            TEKNOFEST
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Corporate Section -->
+            <div>
+                <h3 class="text-sm font-semibold text-gray-800 mb-4">
+                    KURUMSAL
+                </h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="https://robot.meb.gov.tr/destek/iletisim" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 group flex items-center">
+                            İletişim
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social Media Section -->
+            <div>
+                <h3 class="text-sm font-semibold text-gray-800 mb-4">
+                    SOSYAL MEDYA
+                </h3>
+                <div class="flex space-x-4 mb-4">
+                    <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#" aria-label="Instagram" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#" aria-label="Facebook" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#" aria-label="Twitter" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#" aria-label="LinkedIn" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://robot.meb.gov.tr/kategoriler/labirent-ustasi#" aria-label="YouTube" class="text-gray-600 hover:text-blue-500 transition-colors duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://meslegimhayatim.meb.gov.tr/" target="_blank" rel="noopener noreferrer">
+                        <img src="./Uluslararası Meb Robot Yarışması_files/logo.png" class="w-24" alt="Mesleğim Hayatım Logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="text-center border-t border-gray-200 pt-8 mt-8 text-gray-600">
+            <p>
+                Copyright © 2007 - 2026 |
+                Tüm Hakları Saklıdır
+            </p>
+        </div>
+    </div>
+  
+
+
+</footer>
+
+	</main><div class="notyf"></div><div class="notyf-announcer" aria-atomic="true" aria-live="polite" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; outline: 0px;"></div><div class="mobile-menu-overlay"></div>
+
+
+	
+	<script>
+		$('.prose iframe').each(function () {
+			var src = $(this).attr('src');
+			src.replace("http://", "https://");
+
+			var link = $('<a href="/lib/pdfJs/web/viewer.html?file=' + src + '" data-fancybox="pdf-gallery"  class="flex justify-center items-center py-3 px-4 text-sm font-medium rounded-lg border border-yellow-500 text-yellow-500 hover:border-yellow-400 focus:outline-none focus:border-yellow-400 focus:text-yellow-400 disabled:opacity-50 disabled:pointer-events-none mb-4">\n' +
+				'    Tam Ekranda Göster\n' +
+				'</a>');
+			$(this).before(link);
+		});
+		document.querySelectorAll('iframe').forEach(function (iframe) {
+			let src = iframe.getAttribute('src');
+			src.replace("http://", "https://");
+			if (src && src.includes('.pdf')) {
+				let newSrc = `/lib/pdfJs/web/viewer.html?file=${encodeURIComponent(src)}`;
+				iframe.setAttribute('src', newSrc);
+			}
+		});
+	</script>
+
+
+</body></html>

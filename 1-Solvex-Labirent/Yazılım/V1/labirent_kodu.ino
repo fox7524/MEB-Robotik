@@ -5,6 +5,7 @@
 #include <Servo.h>
 #include <Wire.h>
 #include <MPU6050.h>
+#include <Arduino.h>
 
 //hcsr04 pin ad atamaları
 #const int HCSR_1 = 2;
@@ -57,12 +58,7 @@ pinMode(HCSR_1, INPUT);
 pinMode(HCSR_2, INPUT);
 pinMode(HCSR_3, INPUT);
 pinMode(HCSR_4, INPUT);
-//SD kart modülü pin atamaları
 
-pinMode(miso, );
-pinMode(mosi, );
-pinMode(sck, );
-pinMode(scl, );
 
 //motor pin atamaları sektörü
 //sağ motor kontrol pinleri

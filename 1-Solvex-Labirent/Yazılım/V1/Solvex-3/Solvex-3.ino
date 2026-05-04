@@ -97,6 +97,10 @@ static int g_prevY = 0;
 static int g_qtrBaseline = 0;
 static int g_startIdleLevel = HIGH;
 static bool g_started = false;
+static long g_cellTicks = CELL_TICKS;
+static uint8_t g_finishStreak = 0;
+static const bool ENABLE_QTR_FINISH = true;
+static const unsigned long FINISH_CREEP_MS = 250;
 
 void ileri();
 void geri();
@@ -114,8 +118,21 @@ static void motorStop() {
   if (R_PWM >= 0) analogWrite(R_PWM, 0);
 }
 
-static void isrEncL() { g_encL++; }
-static void isrEncR() { g_encR++; }
+static void isrEncL() {
+  if (PIN_ENC_L_B >= 0) {
+    g_encL += (digitalRead(PIN_ENC_L_B) == HIGH) ? 1 : -1;
+  } else {
+    g_encL++;
+  }
+}
+
+static void isrEncR() {
+  if (PIN_ENC_R_B >= 0) {
+    g_encR += (digitalRead(PIN_ENC_R_B) == HIGH) ? 1 : -1;
+  } else {
+    g_encR++;
+  }
+}
 
 static void resetEncoders() {
   noInterrupts();
@@ -209,10 +226,9 @@ static int hcsrReadCmOnce(int trigPin, int echoPin) {
 
 static int hcsrReadCmFast2(int trigPin, int echoPin) {
   int a = hcsrReadCmOnce(trigPin, echoPin);
-  if (a < 0) a = 500;
   delay(HCSR_INTER_PING_MS);
   int b = hcsrReadCmOnce(trigPin, echoPin);
-  if (b < 0) b = 500;
+  if (a < 0 || b < 0) return -1;
   return (a < b) ? a : b;
 }
 
@@ -222,8 +238,15 @@ static bool wallFromCm(int cm) {
 }
 
 static bool isFinish() {
+  if (!ENABLE_QTR_FINISH) return false;
   int v = analogRead(PIN_QTR1A);
-  return v > (g_qtrBaseline + QTR_MARGIN);
+  bool white = v > (g_qtrBaseline + QTR_MARGIN);
+  if (white) {
+    if (g_finishStreak < 255) g_finishStreak++;
+  } else {
+    g_finishStreak = 0;
+  }
+  return g_finishStreak >= 3;
 }
 
 static void markKnownEdge(int x, int y, uint8_t dir) {
@@ -458,22 +481,30 @@ static void driveOneCell() {
   g_prevX = g_x;
   g_prevY = g_y;
 
-  if (CELL_TICKS > 0 && PIN_ENC_L_A >= 0 && PIN_ENC_R_A >= 0) {
+  long useTicks = g_cellTicks;
+  if (useTicks > 0 && PIN_ENC_L_A >= 0 && PIN_ENC_R_A >= 0) {
     resetEncoders();
     ileri();
     unsigned long t0 = millis();
-    while (true) {
+    while ((millis() - t0) <= 2500) {
       long l = labs(encL());
       long r = labs(encR());
-      if (l >= CELL_TICKS && r >= CELL_TICKS) break;
-      if ((millis() - t0) > 2000) break;
+      if (l >= useTicks && r >= useTicks) break;
       delay(2);
     }
     motorStop();
   } else {
+    long l0 = labs(encL());
+    long r0 = labs(encR());
     ileri();
     delay(CELL_TRAVEL_MS_FALLBACK);
     motorStop();
+    long l1 = labs(encL());
+    long r1 = labs(encR());
+    long dl = l1 - l0;
+    long dr = r1 - r0;
+    long est = (dl > 0 && dr > 0) ? ((dl + dr) / 2) : 0;
+    if (est > 0 && g_cellTicks == 0) g_cellTicks = est;
   }
 
   static const int dx[4] = {0, 1, 0, -1};
@@ -482,7 +513,11 @@ static void driveOneCell() {
   int ny = g_y + dy[g_heading & 3];
   if (nx < 0 || nx >= MAZE_W || ny < 0 || ny >= MAZE_H) {
     motorStop();
-    while (true) delay(50);
+    geri();
+    delay(250);
+    motorStop();
+    g_heading = (g_heading + 2) & 3;
+    return;
   }
   g_x = nx;
   g_y = ny;
@@ -514,12 +549,21 @@ static bool stepExplore() {
   int tx = -1, ty = -1;
   if (!pickExplorationTarget(tx, ty)) {
     motorStop();
-    while (true) delay(50);
+    geri();
+    delay(200);
+    motorStop();
+    sag360();
+    delay(120);
+    motorStop();
+    return false;
   }
   int next = chooseNextHeadingToTarget(tx, ty);
   if (next < 0) {
     motorStop();
-    while (true) delay(50);
+    sag360();
+    delay(120);
+    motorStop();
+    return false;
   }
 
   bool lastFrontWall = wF;
@@ -537,6 +581,9 @@ static bool stepExplore() {
   }
 
   if (lastFrontWall) {
+    motorStop();
+    sag360();
+    delay(120);
     motorStop();
     return false;
   }
@@ -635,6 +682,8 @@ void loop() {
 
   bool done = stepExplore();
   if (done) {
+    ileri();
+    delay(FINISH_CREEP_MS);
     motorStop();
     unsigned long t0 = millis();
     while ((millis() - t0) < 5000) {

@@ -71,6 +71,7 @@ static constexpr bool ENABLE_SELFTEST = false;
 static constexpr bool ENABLE_LED_DEBUG = true;
 static constexpr bool ENABLE_MOTOR_SANITY = true;
 static constexpr bool BYPASS_START_BTN = true;
+static constexpr bool FORCE_BOOT_MOTOR_TEST = true;
 
 static constexpr bool BYPASS_QTR1A = true;
 static constexpr uint16_t QTR_WHITE_THRESHOLD = 2500;
@@ -103,6 +104,47 @@ void ledBlink(uint8_t n) {
     delay(120);
   }
   delay(300);
+}
+
+void bootMotorTest() {
+  ledBlink(5);
+
+  digitalWrite(L_PWM, HIGH);
+  digitalWrite(R_PWM, HIGH);
+
+  digitalWrite(L_IN1, HIGH);
+  digitalWrite(L_IN2, LOW);
+  digitalWrite(R_IN1, HIGH);
+  digitalWrite(R_IN2, LOW);
+  ledBlink(1);
+  delay(600);
+
+  digitalWrite(L_IN1, LOW);
+  digitalWrite(L_IN2, LOW);
+  digitalWrite(R_IN1, LOW);
+  digitalWrite(R_IN2, LOW);
+  ledBlink(2);
+  delay(300);
+
+  digitalWrite(L_IN1, LOW);
+  digitalWrite(L_IN2, HIGH);
+  digitalWrite(R_IN1, LOW);
+  digitalWrite(R_IN2, HIGH);
+  ledBlink(3);
+  delay(600);
+
+  digitalWrite(L_IN1, LOW);
+  digitalWrite(L_IN2, LOW);
+  digitalWrite(R_IN1, LOW);
+  digitalWrite(R_IN2, LOW);
+  digitalWrite(L_PWM, LOW);
+  digitalWrite(R_PWM, LOW);
+  ledBlink(4);
+
+  while (true) {
+    ledBlink(6);
+    delay(800);
+  }
 }
 
 static void selfTestOnce() {
@@ -178,6 +220,10 @@ analogWrite(L_PWM, 0);
 analogWrite(R_PWM, 0);
 
 
+
+if (FORCE_BOOT_MOTOR_TEST) {
+  bootMotorTest();
+}
 
 }
 

@@ -68,10 +68,41 @@ static bool g_have_prev = false;
 
 static constexpr bool ENABLE_DIAGNOSTICS = false;
 static constexpr bool ENABLE_SELFTEST = false;
+static constexpr bool ENABLE_LED_DEBUG = true;
+static constexpr bool ENABLE_MOTOR_SANITY = false;
 
 static constexpr bool BYPASS_QTR1A = true;
 static constexpr uint16_t QTR_WHITE_THRESHOLD = 2500;
 static constexpr uint16_t WALL_THRESHOLD_CM = 14;
+
+static constexpr int PIN_LED = PC13;
+
+void ledInit() {
+  if (!ENABLE_LED_DEBUG) return;
+  pinMode(PIN_LED, OUTPUT);
+  digitalWrite(PIN_LED, HIGH);
+}
+
+void ledOn() {
+  if (!ENABLE_LED_DEBUG) return;
+  digitalWrite(PIN_LED, LOW);
+}
+
+void ledOff() {
+  if (!ENABLE_LED_DEBUG) return;
+  digitalWrite(PIN_LED, HIGH);
+}
+
+void ledBlink(uint8_t n) {
+  if (!ENABLE_LED_DEBUG) return;
+  for (uint8_t i = 0; i < n; i++) {
+    ledOn();
+    delay(120);
+    ledOff();
+    delay(120);
+  }
+  delay(300);
+}
 
 static void selfTestOnce() {
   static bool done = false;
@@ -114,6 +145,7 @@ void setup() {
 Serial.begin(115200);
 Serial.print("merheaba");
 #endif
+ledInit();
 pinMode(H_F_E, INPUT);
 pinMode(H_L_E, INPUT);
 pinMode(H_R_E, INPUT);
@@ -161,6 +193,21 @@ void loop() {
       if (digitalRead(PIN_START_BTN) == v) started = true;
     }
     return;
+  }
+
+  if (ENABLE_MOTOR_SANITY) {
+    ledBlink(1);
+    ileri();
+    delay(400);
+    dur();
+    delay(200);
+    geri();
+    delay(400);
+    dur();
+    while (true) {
+      ledBlink(2);
+      delay(500);
+    }
   }
 
   if (ENABLE_SELFTEST) selfTestOnce();
@@ -488,6 +535,7 @@ bool driveOneCell() {
   uint32_t t0 = millis();
   uint32_t lastSense = 0;
 
+  ledOn();
   setMotorRaw(BASE, BASE);
   while (ticks < TICKS_PER_CELL && (millis() - t0) < TIMEOUT_MS) {
     int dL = 0, dR = 0;
@@ -510,6 +558,7 @@ bool driveOneCell() {
     delay(1);
   }
   stopMotorsRaw();
+  ledOff();
   delay(10);
   return ticks >= (TICKS_PER_CELL / 4);
 }
@@ -517,7 +566,10 @@ bool driveOneCell() {
 bool stepTo(uint8_t dirStep) {
   turnToDir(dirStep);
   tileri();
-  if (g_wall_front) return false;
+  if (g_wall_front) {
+    ledBlink(4);
+    return false;
+  }
 
   g_prev_x = g_x;
   g_prev_y = g_y;
@@ -604,6 +656,7 @@ void search(){ // labirent çözme algoritması fonksiyonu
 
   if (!haveTarget) {
     stopMotorsRaw();
+    ledBlink(3);
     delay(100);
     return;
   }
@@ -612,6 +665,7 @@ void search(){ // labirent çözme algoritması fonksiyonu
   uint8_t pathLen = 0;
   if (!buildPath(g_x, g_y, targetX, targetY, parentDir, path, pathLen)) {
     stopMotorsRaw();
+    ledBlink(3);
     delay(50);
     return;
   }

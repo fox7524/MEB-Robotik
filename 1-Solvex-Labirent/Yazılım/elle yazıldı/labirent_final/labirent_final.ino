@@ -68,16 +68,20 @@ static bool g_have_prev = false;
 
 static constexpr bool ENABLE_DIAGNOSTICS = false;
 static constexpr bool ENABLE_SELFTEST = false;
-static constexpr bool ENABLE_LED_DEBUG = true;
-static constexpr bool ENABLE_MOTOR_SANITY = true;
-static constexpr bool BYPASS_START_BTN = true;
-static constexpr bool FORCE_BOOT_MOTOR_TEST = true;
+static constexpr bool ENABLE_LED_DEBUG = false;
+static constexpr bool ENABLE_MOTOR_SANITY = false;
+static constexpr bool BYPASS_START_BTN = false;
+static constexpr bool FORCE_BOOT_MOTOR_TEST = false;
 
 static constexpr bool BYPASS_QTR1A = true;
 static constexpr uint16_t QTR_WHITE_THRESHOLD = 2500;
-static constexpr uint16_t WALL_THRESHOLD_CM = 14;
+static constexpr uint16_t WALL_THRESHOLD_CM = 9;
 
 static constexpr int PIN_LED = PC13;
+
+static uint8_t g_wall_cnt_f = 0;
+static uint8_t g_wall_cnt_l = 0;
+static uint8_t g_wall_cnt_r = 0;
 
 void ledInit() {
   if (!ENABLE_LED_DEBUG) return;
@@ -355,17 +359,32 @@ analogWrite(R_PWM, 0);
 
 void tileri(){ //ileriyi tarama fonskiyonu
   gethcsrf();
-  g_wall_front = (g_front_cm > 0 && g_front_cm < WALL_THRESHOLD_CM) ? 1 : 0;
+  if (g_front_cm > 0 && g_front_cm < WALL_THRESHOLD_CM) {
+    if (g_wall_cnt_f < 3) g_wall_cnt_f++;
+  } else {
+    g_wall_cnt_f = 0;
+  }
+  g_wall_front = (g_wall_cnt_f >= 2) ? 1 : 0;
 }
 
 void tsag(){ //sağı tarama fonksiyonu
   gethcsrr();
-  g_wall_right = (g_right_cm > 0 && g_right_cm < WALL_THRESHOLD_CM) ? 1 : 0;
+  if (g_right_cm > 0 && g_right_cm < WALL_THRESHOLD_CM) {
+    if (g_wall_cnt_r < 3) g_wall_cnt_r++;
+  } else {
+    g_wall_cnt_r = 0;
+  }
+  g_wall_right = (g_wall_cnt_r >= 2) ? 1 : 0;
 }
 
 void tsol(){ //solu tarama fonksiyonu
   gethcsrl();
-  g_wall_left = (g_left_cm > 0 && g_left_cm < WALL_THRESHOLD_CM) ? 1 : 0;
+  if (g_left_cm > 0 && g_left_cm < WALL_THRESHOLD_CM) {
+    if (g_wall_cnt_l < 3) g_wall_cnt_l++;
+  } else {
+    g_wall_cnt_l = 0;
+  }
+  g_wall_left = (g_wall_cnt_l >= 2) ? 1 : 0;
 }
 
 // ----- Function-based navigation helpers -----
@@ -700,6 +719,9 @@ void initSearchRuntime() {
 
   g_have_prev = false;
   g_last_sensor_ms = 0;
+  g_wall_cnt_f = 0;
+  g_wall_cnt_l = 0;
+  g_wall_cnt_r = 0;
   getmpu();
   stopMotorsRaw();
   delay(50);

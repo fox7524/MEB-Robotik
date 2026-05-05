@@ -69,7 +69,8 @@ static bool g_have_prev = false;
 static constexpr bool ENABLE_DIAGNOSTICS = false;
 static constexpr bool ENABLE_SELFTEST = false;
 static constexpr bool ENABLE_LED_DEBUG = true;
-static constexpr bool ENABLE_MOTOR_SANITY = false;
+static constexpr bool ENABLE_MOTOR_SANITY = true;
+static constexpr bool BYPASS_START_BTN = true;
 
 static constexpr bool BYPASS_QTR1A = true;
 static constexpr uint16_t QTR_WHITE_THRESHOLD = 2500;
@@ -183,6 +184,8 @@ analogWrite(R_PWM, 0);
 void loop() {
   static bool started = false;
   static int startLevel = -1;
+
+  if (BYPASS_START_BTN) started = true;
 
   if (startLevel < 0) startLevel = digitalRead(PIN_START_BTN);
 
@@ -491,6 +494,35 @@ void turnToDir(uint8_t targetDir) {
   while (diff < -2) diff += 4;
   if (diff == 0) return;
 
+  if (!g_mpu_ok) {
+    static constexpr int TURN_PWM = 140;
+    static constexpr uint16_t TURN_TICKS_90 = 120;
+    static constexpr uint32_t TURN_TIMEOUT_MS = 900;
+
+    int8_t steps = (diff < 0) ? (int8_t)(-diff) : diff;
+    int s = (diff > 0) ? 1 : -1;
+
+    for (int8_t i = 0; i < steps; i++) {
+      uint16_t ticks = 0;
+      uint8_t lastLA = (uint8_t)digitalRead(PIN_ENC_L_A);
+      uint8_t lastRA = (uint8_t)digitalRead(PIN_ENC_R_A);
+      uint32_t t0 = millis();
+
+      setMotorRaw(-TURN_PWM * s, TURN_PWM * s);
+      while (ticks < TURN_TICKS_90 && (millis() - t0) < TURN_TIMEOUT_MS) {
+        int dL = 0, dR = 0;
+        readEncDelta(lastLA, lastRA, dL, dR);
+        ticks += (uint16_t)(dL + dR);
+        delay(1);
+      }
+      stopMotorsRaw();
+      delay(60);
+      g_dir = (uint8_t)((g_dir + (s > 0 ? 1 : 3)) & 3);
+    }
+
+    return;
+  }
+
   float startYaw = g_yaw_deg;
   float goal = wrapYaw(startYaw + (float)diff * 90.0f);
 
@@ -792,9 +824,15 @@ void getmpu(){ //mpu6050 sensöründen veri okuma fonksiyonu
 
   Wire.beginTransmission(MPU_ADDR);
   Wire.write((uint8_t)0x47);
-  if (Wire.endTransmission(false) != 0) return;
+  if (Wire.endTransmission(false) != 0) {
+    g_mpu_ok = false;
+    return;
+  }
   uint8_t got = Wire.requestFrom((int)MPU_ADDR, 2);
-  if (got != 2) return;
+  if (got != 2) {
+    g_mpu_ok = false;
+    return;
+  }
   uint8_t hi = (uint8_t)Wire.read();
   uint8_t lo = (uint8_t)Wire.read();
   int16_t gz = (int16_t)((hi << 8) | lo);

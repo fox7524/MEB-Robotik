@@ -317,34 +317,3 @@ analogWrite(L_PWM, 0);
 analogWrite(R_PWM, 0);
     
 }
-
-void tileri(){ //ileriyi tarama fonskiyonu
-  gethcsrf();
-
-}
-
-void tsag(){ //sağı tarama fonksiyonu
-  gethcsrr();
-
-}
-
-void tsol(){ //solu tarama fonksiyonu
-  gethcsrl();
-
-}
-
-void search(){ // labirent çözme algoritması fonksiyonu
-
-//“Frontier-based exploration + BFS (flood-fill)”: keşif hedefi olarak “frontier” (bilinmeyen kenarı olan en yakın hücre) seçiliyor, o hedefe en kısa yol BFS ile bulunup adım adım ilerleniyor.
-
-}
-
-void getmpu(){ //mpu6050 sensöründen veri okuma fonksiyonu
- 
-}
-
-bool qtrIsWhite() { //qtr sensöründen veri okuma fonksiyonu
-  if (BYPASS_QTR1A) return false;
-  uint16_t v = analogRead(PIN_QTR1A);
-  return v > QTR_WHITE_THRESHOLD; 
-}

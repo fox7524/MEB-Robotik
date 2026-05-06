@@ -7,7 +7,7 @@
 #include "I2Cdev.h"
 
 
-
+const int BUILTIN_LED = PC13;
 const int PIN_START_BTN = PB5;
 
 const int PIN_QTR1A = PA0;
@@ -16,9 +16,9 @@ const int HFT = PA1;
 const int HLT  = PA2;
 const int HRT = PA3;
 
-const int H_F_E = PA4;
-const int H_L_E  = PA5;
-const int H_R_E = PA6;
+const int HFE = PA4;
+const int HLE  = PA5;
+const int HRE = PA6;
 
 
 const int R_PWM = PB0;
@@ -34,40 +34,58 @@ const int PIN_ENC_R_A = PB11; // C1
 const int PIN_ENC_L_B = PB8;  // C2
 const int PIN_ENC_R_B = PB9;  // C2
 
-static constexpr uint8_t MAZE_W = 8;
-static constexpr uint8_t MAZE_H = 16;
 
-enum Dir : uint8_t { DIR_N = 0, DIR_E = 1, DIR_S = 2, DIR_W = 3 };
-static constexpr uint8_t DIR_BIT[4] = { 1u << 0, 1u << 1, 1u << 2, 1u << 3 };
-static constexpr int8_t DX[4] = { 0, 1, 0, -1 };
-static constexpr int8_t DY[4] = { -1, 0, 1, 0 };
+static uint16_t readCmF() {
+  digitalWrite(HFT, LOW);
+  delayMicroseconds(2);
+  digitalWrite(HFT, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(HFT, LOW);
 
-struct Cell {
-  uint8_t walls;
-  uint8_t known;
-  uint8_t visited;
-};
+  unsigned long us = pulseIn(ECHO_PIN, HIGH, 30000UL); // 30ms timeout
+  if (!us) return 0;
 
-static Cell g_maze[MAZE_H][MAZE_W];
-static uint8_t g_x = 0;
-static uint8_t g_y = 0;
-static uint8_t g_dir = DIR_E;
+  uint16_t cmF = (uint16_t)(us / 58UL);
+  if (cmF > 400) cmF = 400;
+  return cmF;
+}
 
-static uint16_t g_front_cm = 0;
-static uint16_t g_left_cm = 0;
-static uint16_t g_right_cm = 0;
-static uint8_t g_wall_front = 0;
-static uint8_t g_wall_left = 0;
-static uint8_t g_wall_right = 0;
+static uint16_t readCmL() {
+  digitalWrite(HLT, LOW);
+  delayMicroseconds(2);
+  digitalWrite(HLT, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(HLT, LOW);
 
-static float g_yaw_deg = 0.0f;
+  unsigned long us = pulseIn(ECHO_PIN, HIGH, 30000UL); // 30ms timeout
+  if (!us) return 0;
+
+  uint16_t cmL = (uint16_t)(us / 58UL);
+  if (cmL > 400) cmL = 400;
+  return cmL;
+}
+
+static uint16_t readCmR() {
+  digitalWrite(HRT, LOW);
+  delayMicroseconds(2);
+  digitalWrite(HRT, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(HRT, LOW);
+
+  unsigned long us = pulseIn(ECHO_PIN, HIGH, 30000UL); // 30ms timeout
+  if (!us) return 0;
+
+  uint16_t cmR = (uint16_t)(us / 58UL);
+  if (cmR > 400) cmR = 400;
+  return cmR;
+}
 
 void setup() {
 Serial.begin(115600);
 Serial.print("merheaba");    
-pinMode(H_F_E, INPUT);
-pinMode(H_L_E, INPUT);
-pinMode(H_R_E, INPUT);
+pinMode(HFE, INPUT);
+pinMode(HLE, INPUT);
+pinMode(HRE, INPUT);
 pinMode(PIN_START_BTN, INPUT);
 pinMode(PIN_QTR1A, INPUT);
 pinMode(PIN_ENC_L_A, INPUT);
@@ -87,6 +105,17 @@ pinMode(L_IN2, OUTPUT);
 }
 
 void loop() {
+uint16_t cmF = readCmF();
+delayMicroseconds(30);
+uint16_t cmL = readCmL();
+delayMicroseconds(30);
+uint16_t cmR = readCmR();
+delayMicroseconds(30);
+
+
+
+
+
 
 }
 
@@ -211,6 +240,7 @@ void tileri(){ //ileriyi tarama fonskiyonu
 
 void tsag(){ //sağı tarama fonksiyonu
   gethcsrr();
+
 }
 
 void tsol(){ //solu tarama fonksiyonu
@@ -228,14 +258,7 @@ void getmpu(){ //mpu6050 sensöründen veri okuma fonksiyonu
  
 }
 
-void gethcsrf(){ //hcsr04 ön sensöründen veri okuma fonksiyonu
-
-}
-
-void gethcsrl(){ //hcsr04 sol sensöründen veri okuma fonksiyonu
-
-}
-
-void gethcsrr(){ //hcsr04 sağ sensöründen veri okuma fonksiyonu
-
-}
+bool qtrIsWhite() { //qtr sensöründen veri okuma fonksiyonu
+  if (BYPASS_QTR1A) return false;
+  uint16_t v = analogRead(PIN_QTR1A);
+  return v > QTR_WHITE_THRESHOLD; 

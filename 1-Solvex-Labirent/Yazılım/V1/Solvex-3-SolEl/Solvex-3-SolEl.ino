@@ -185,7 +185,7 @@ static long encAvgAbs() {
   return (l + r) / 2;
 }
 
-static uint16_t pingCM(int trig, int echo) {
+static uint16_t pingCMOnce(int trig, int echo) {
   digitalWrite(trig, LOW);
   delayMicroseconds(2);
   digitalWrite(trig, HIGH);
@@ -199,12 +199,30 @@ static uint16_t pingCM(int trig, int echo) {
   return cm;
 }
 
+static uint16_t pingCMFast2(int trig, int echo) {
+  uint16_t a = pingCMOnce(trig, echo);
+  delay(18);
+  uint16_t b = pingCMOnce(trig, echo);
+  if (a == 0) return b;
+  if (b == 0) return a;
+  return (a < b) ? a : b;
+}
+
 static void readUltrasonics() {
-  g_cm_f = pingCM(HFT, H_F_E);
+  {
+    uint16_t v = pingCMFast2(HFT, H_F_E);
+    if (v != 0) g_cm_f = v;
+  }
   delay(PING_INTER_DELAY_MS);
-  g_cm_l = pingCM(HLT, H_L_E);
+  {
+    uint16_t v = pingCMFast2(HLT, H_L_E);
+    if (v != 0) g_cm_l = v;
+  }
   delay(PING_INTER_DELAY_MS);
-  g_cm_r = pingCM(HRT, H_R_E);
+  {
+    uint16_t v = pingCMFast2(HRT, H_R_E);
+    if (v != 0) g_cm_r = v;
+  }
 }
 
 static inline bool wallFront() { return (g_cm_f == 0) ? true : (g_cm_f < WALL_CM_FRONT); }

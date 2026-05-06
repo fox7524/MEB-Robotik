@@ -36,6 +36,10 @@ static constexpr bool INVERT_R = false;
 static constexpr uint8_t PWM_RUN = 170;
 static constexpr uint8_t PWM_TURN = 160;
 
+static constexpr bool ENABLE_ENCODER_BALANCE = true;
+static constexpr float ENC_BAL_KP = 0.9f;
+static constexpr int ENC_BAL_MAX_ADJ = 70;
+
 static constexpr uint16_t WALL_CM_FRONT = 13;
 static constexpr uint16_t WALL_CM_SIDE = 8;
 
@@ -203,9 +207,9 @@ static void readUltrasonics() {
   g_cm_r = pingCM(HRT, H_R_E);
 }
 
-static inline bool wallFront() { return (g_cm_f > 0 && g_cm_f < WALL_CM_FRONT); }
-static inline bool wallLeft() { return (g_cm_l > 0 && g_cm_l < WALL_CM_SIDE); }
-static inline bool wallRight() { return (g_cm_r > 0 && g_cm_r < WALL_CM_SIDE); }
+static inline bool wallFront() { return (g_cm_f == 0) ? true : (g_cm_f < WALL_CM_FRONT); }
+static inline bool wallLeft() { return (g_cm_l == 0) ? true : (g_cm_l < WALL_CM_SIDE); }
+static inline bool wallRight() { return (g_cm_r == 0) ? true : (g_cm_r < WALL_CM_SIDE); }
 
 static void stepForward() {
   if (!USE_ENCODERS || !g_encOk) {
@@ -228,11 +232,19 @@ static void stepForward() {
   }
 
   resetEncoders();
-  ileri();
+  motorSet(PWM_RUN, PWM_RUN);
   unsigned long t0 = millis();
   while (encAvgAbs() < g_stepTicksTarget) {
     if ((millis() - t0) > 2500) break;
-    delay(2);
+    if (ENABLE_ENCODER_BALANCE) {
+      long l = encL();
+      long r = encR();
+      long err = l - r;
+      int adj = (int)(ENC_BAL_KP * (float)err);
+      adj = constrain(adj, -ENC_BAL_MAX_ADJ, ENC_BAL_MAX_ADJ);
+      motorSet(PWM_RUN - adj, PWM_RUN + adj);
+    }
+    delay(6);
   }
   dur();
   delay(60);
@@ -261,11 +273,19 @@ static void turnLeft() {
   }
 
   resetEncoders();
-  sol360();
+  motorSet(-PWM_TURN, PWM_TURN);
   unsigned long t0 = millis();
   while (encAvgAbs() < g_turn90TicksTarget) {
     if ((millis() - t0) > 1800) break;
-    delay(2);
+    if (ENABLE_ENCODER_BALANCE) {
+      long l = labs(encL());
+      long r = labs(encR());
+      long err = l - r;
+      int adj = (int)(ENC_BAL_KP * (float)err);
+      adj = constrain(adj, -ENC_BAL_MAX_ADJ, ENC_BAL_MAX_ADJ);
+      motorSet((-PWM_TURN) + adj, PWM_TURN + adj);
+    }
+    delay(6);
   }
   dur();
   delay(80);
@@ -294,11 +314,19 @@ static void turnRight() {
   }
 
   resetEncoders();
-  sag360();
+  motorSet(PWM_TURN, -PWM_TURN);
   unsigned long t0 = millis();
   while (encAvgAbs() < g_turn90TicksTarget) {
     if ((millis() - t0) > 1800) break;
-    delay(2);
+    if (ENABLE_ENCODER_BALANCE) {
+      long l = labs(encL());
+      long r = labs(encR());
+      long err = l - r;
+      int adj = (int)(ENC_BAL_KP * (float)err);
+      adj = constrain(adj, -ENC_BAL_MAX_ADJ, ENC_BAL_MAX_ADJ);
+      motorSet(PWM_TURN - adj, (-PWM_TURN) - adj);
+    }
+    delay(6);
   }
   dur();
   delay(80);
@@ -326,11 +354,19 @@ static void turnAround() {
   }
 
   resetEncoders();
-  sag360();
+  motorSet(PWM_TURN, -PWM_TURN);
   unsigned long t0 = millis();
   while (encAvgAbs() < target) {
     if ((millis() - t0) > 2600) break;
-    delay(2);
+    if (ENABLE_ENCODER_BALANCE) {
+      long l = labs(encL());
+      long r = labs(encR());
+      long err = l - r;
+      int adj = (int)(ENC_BAL_KP * (float)err);
+      adj = constrain(adj, -ENC_BAL_MAX_ADJ, ENC_BAL_MAX_ADJ);
+      motorSet(PWM_TURN - adj, (-PWM_TURN) - adj);
+    }
+    delay(6);
   }
   dur();
   delay(100);

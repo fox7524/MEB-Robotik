@@ -269,6 +269,7 @@ digitalWrite(R_IN2, HIGH);
 
 analogWrite(L_PWM, 255);
 analogWrite(R_PWM, 255);
+analogWrite(RF_PWM, 255);
     
 }   
 void sol360(){ //sola 360 derece dönüş fonksiyonu(sağ teker geri sol teker ileri)
